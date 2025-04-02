@@ -1,0 +1,190 @@
+/* Dark Theme for Swagger UI with Lighter Titles */
+
+/* Background and text colors */
+body {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* Swagger UI container */
+.swagger-ui .information-container {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+/* Header */
+.swagger-ui .topbar {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+}
+
+.swagger-ui .topbar .download-url-wrapper {
+    background-color: #1a1a1a;
+}
+
+.swagger-ui .topbar .download-url-wrapper input {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+.swagger-ui .topbar .download-url-wrapper .download-url-button {
+    background-color: #444;
+    color: #e0e0e0;
+}
+
+/* Models and endpoints */
+.swagger-ui .opblock {
+    background-color: #2d2d2d;
+    border: 1px solid #444;
+}
+
+.swagger-ui .opblock .opblock-summary {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .opblock-summary:hover {
+    background-color: #444;
+}
+
+.swagger-ui .opblock .opblock-summary-method {
+    background-color: #555;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .opblock-summary-path {
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .opblock-section-header {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .opblock-section-header h4 {
+    color: #ffffff; /* Lighter title color */
+}
+
+.swagger-ui .opblock .opblock-section-header .try-out {
+    background-color: #444;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .opblock-section-header .try-out:hover {
+    background-color: #555;
+}
+
+.swagger-ui .opblock .opblock-section-header .btn {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+.swagger-ui .opblock .opblock-section-header .btn:hover {
+    background-color: #555;
+}
+
+/* Parameters and responses */
+.swagger-ui .opblock .table-container {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .table-container table thead tr {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .table-container table tbody tr {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .table-container table tbody tr td {
+    border-bottom: 1px solid #444;
+}
+
+.swagger-ui .opblock .responses-wrapper {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .responses-wrapper .responses-inner {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .responses-wrapper .responses-inner .response-col_status {
+    color: #e0e0e0;
+}
+
+.swagger-ui .opblock .responses-wrapper .responses-inner .response-col_description {
+    color: #e0e0e0;
+}
+
+/* Models */
+.swagger-ui .model-box {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.swagger-ui .model-box .model-title {
+    color: #ffffff; /* Lighter title color */
+}
+
+.swagger-ui .model-box .model {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.swagger-ui .model-box .model .property {
+    color: #e0e0e0;
+}
+
+/* Code snippets */
+.swagger-ui .opblock .opblock-section-header .microlight {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+/* Buttons */
+.swagger-ui .btn {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+.swagger-ui .btn:hover {
+    background-color: #555;
+}
+
+/* Links */
+.swagger-ui a {
+    color: #4dabf7;
+}
+
+.swagger-ui a:hover {
+    color: #6bc1ff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+.swagger-ui .info .title {
+    color: #3b4151;
+}
