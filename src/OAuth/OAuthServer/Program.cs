@@ -1,4 +1,4 @@
-namespace OAuth;
+namespace OAuthServer;
 
 public class Program
 {

@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace OAuth;
+namespace OAuthServer;
 
 public class KeyManager
 {
