@@ -3,26 +3,78 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace OAuthServer;
 
-public class DevKeys
+public sealed class DevKeys : IDisposable
 {
-    public DevKeys(
-        IWebHostEnvironment env
-    )
+    private static readonly Lock Sync = new();
+
+    public DevKeys( IWebHostEnvironment env)
     {
-        RsaKey = RSA.Create();
         var path = Path.Combine(env.ContentRootPath, "crypto_key");
-        if (File.Exists(path))
+        if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("path required", nameof(path));
+        var fullPath = Path.GetFullPath(path);
+        var rsa = RSA.Create();
+
+        if (File.Exists(fullPath))
         {
-            var rsaKey = RSA.Create();
-            rsaKey.ImportRSAPrivateKey(File.ReadAllBytes(path), out _);
+            var existing = File.ReadAllBytes(fullPath);
+            rsa.ImportRSAPrivateKey(existing, out _);
         }
         else
         {
-            var privateKey = RsaKey.ExportRSAPrivateKey();
-            File.WriteAllBytes(path, privateKey);
+            lock (Sync)
+            {
+                if (!File.Exists(fullPath))
+                {
+                    rsa = RSA.Create();
+                    var priv = rsa.ExportRSAPrivateKey();
+                    var tmp = Path.Combine(Path.GetDirectoryName(fullPath) ?? ".",
+                        Path.GetFileName(fullPath) + ".tmp" + Guid.NewGuid().ToString("N"));
+                    try
+                    {
+                        File.WriteAllBytes(tmp, priv);
+                        try
+                        {
+                            var fi = new FileInfo(tmp);
+                            if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+                                fi.UnixFileMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                        File.Move(tmp, fullPath, true);
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            File.Delete(tmp);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+
+                        throw;
+                    }
+                }
+                else
+                {
+                    var existing = File.ReadAllBytes(fullPath);
+                    rsa.ImportRSAPrivateKey(existing, out _);
+                }
+            }
         }
+
+        RsaKey = rsa;
     }
 
     public RSA RsaKey { get; }
-    public RsaSecurityKey RsaSecurityKey => new RsaSecurityKey(RsaKey);
+
+    public RsaSecurityKey RsaSecurityKey => new(RsaKey);
+
+    public void Dispose()
+    {
+        RsaKey?.Dispose();
+    }
 }
