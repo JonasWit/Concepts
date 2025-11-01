@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth", "OAuth\OAuth.csproj", "{80C369D0-5956-4ECA-816A-162F98F4C77D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80C369D0-5956-4ECA-816A-162F98F4C77D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80C369D0-5956-4ECA-816A-162F98F4C77D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80C369D0-5956-4ECA-816A-162F98F4C77D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80C369D0-5956-4ECA-816A-162F98F4C77D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
