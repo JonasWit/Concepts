@@ -1,0 +1,36 @@
+services:
+  stocks.api:
+    image: ${DOCKER_REGISTRY-}stocksapi
+    container_name: Stocks.Api
+    build:
+      context: .
+      dockerfile: Stocks.Api/Dockerfile
+    ports:
+      - 5000:8080
+      - 5001:8081
+
+  stocks.realtime:
+    image: ${DOCKER_REGISTRY-}stocksrealtime
+    container_name: Stocks.Realtime
+    build:
+      context: .
+      dockerfile: Stocks.Realtime/Dockerfile
+    ports:
+      - 6000:8080
+      - 6001:8081
+    environment:
+      - services__stocks-api__http__0="http://stocks.api:8080"
+      - services__stocks-api__https__0="https://stocks.api:8081"
+
+  stocks.postgres:
+    image: postgres:latest
+    container_name: Stocks.Database
+    environment:
+      - POSTGRES_DB=stocks
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
