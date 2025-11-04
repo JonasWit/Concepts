@@ -5,12 +5,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CQRS-ES\CQRS.Core\CQRS.Core.csproj"/>
-    <ProjectReference Include="..\..\Post.Common\Post.Common.csproj"/>
+    <ProjectReference Include="..\..\..\CQRS-ES\CQRS.Core\CQRS.Core.csproj" />
+    <ProjectReference Include="..\..\Post.Common\Post.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="2.12.0"/>
-    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.10"/>
-    <PackageReference Include="MongoDB.Driver" Version="3.5.0"/>
+    <PackageReference Include="Confluent.Kafka" Version="2.12.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.10" />
+    <PackageReference Include="MongoDB.Driver" Version="3.5.0" />
   </ItemGroup>
 </Project>
