@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Query.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Query.Domain", "Post.Query\Post.Query.Domain\Post.Query.Domain.csproj", "{9C07CC40-65EB-428F-8812-39C906EDCDE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Common", "Post.Common\Post.Common.csproj", "{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,18 @@ Global
 		{9C07CC40-65EB-428F-8812-39C906EDCDE7}.Release|x64.Build.0 = Release|Any CPU
 		{9C07CC40-65EB-428F-8812-39C906EDCDE7}.Release|x86.ActiveCfg = Release|Any CPU
 		{9C07CC40-65EB-428F-8812-39C906EDCDE7}.Release|x86.Build.0 = Release|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Debug|x64.Build.0 = Debug|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Release|x64.ActiveCfg = Release|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Release|x64.Build.0 = Release|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4F5655E-EFA8-4E7E-87FD-ACB6C2E70E85}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
