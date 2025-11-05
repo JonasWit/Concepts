@@ -1,4 +1,3 @@
-using System;
 using CQRS.Core.Domain;
 using CQRS.Core.Events;
 using Microsoft.Extensions.Options;
@@ -19,8 +18,13 @@ public class EventStoreRepository : IEventStoreRepository
         _eventStoreCollection = mongoDatabase.GetCollection<EventModel>(config.Value.Collection);
     }
 
-    public Task<List<EventModel>> FindByAggregateId(Guid aggregateId) =>
-        _eventStoreCollection.Find(e => e.AggregateIdentifier == aggregateId).ToListAsync();
+    public Task<List<EventModel>> FindByAggregateId(Guid aggregateId)
+    {
+        return _eventStoreCollection.Find(e => e.AggregateIdentifier == aggregateId).ToListAsync();
+    }
 
-    public Task SaveAsync(EventModel @event) => _eventStoreCollection.InsertOneAsync(@event);
+    public Task SaveAsync(EventModel @event)
+    {
+        return _eventStoreCollection.InsertOneAsync(@event);
+    }
 }
