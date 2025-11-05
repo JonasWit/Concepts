@@ -7,8 +7,8 @@ namespace Post.Cmd.Domain.Aggregates;
 public class PostAggregate : AggregateRoot
 {
     private bool _active;
-    private string? _author;
-    private readonly Dictionary<Guid, Tuple<string, string>> _comments = [];
+    private string _author = "";
+    private readonly Dictionary<Guid, (string Comment, string Aurthor)> _comments = [];
 
     public bool Active
     {
@@ -35,7 +35,7 @@ public class PostAggregate : AggregateRoot
     {
         _id = @event.Id;
         _active = true;
-        _author = @event.Author;
+        _author = @event.Author ?? "";
     }
 
     public void EditMessage(string message)
@@ -105,7 +105,83 @@ public class PostAggregate : AggregateRoot
     public void Apply(CommentAddedEvent @event)
     {
         _id = @event.Id;
-        _comments.Add(@event.CommentId, new Tuple<string, string>(@event.Comment?.ToString() ?? "", @event.Username?.ToString() ?? ""));
+        _comments.Add(@event.CommentId, (@event.Comment?.ToString() ?? "", @event.Username?.ToString() ?? ""));
+    }
+
+    public void EditComment(Guid commentId, string comment, string username)
+    {
+        if (!_active)
+        {
+            throw new InvalidOperationException("You cannot edit a comment to an inactive post");
+        }
+
+        if (_comments[commentId].Aurthor.Equals(username, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("You are not allowd to edit other user comment");
+        }
+
+        RaiseEvent(new CommentUpdatedEvent
+        {
+            Id = _id,
+            CommentId = commentId,
+            Username = username,
+            Comment = comment
+        });
+    }
+
+    public void Apply(CommentUpdatedEvent @event)
+    {
+        _id = @event.Id;
+        _comments[@event.CommentId] = new(@event.Comment ?? "", @event.Username ?? "");
+    }
+
+    public void RemoveComment(Guid commentId, string username)
+    {
+        if (!_active)
+        {
+            throw new InvalidOperationException("You cannot remove a comment to an inactive post");
+        }
+
+        if (_comments[commentId].Aurthor.Equals(username, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("You are not allowd to remove other user comment");
+        }
+
+        RaiseEvent(new CommentRemovedEvent
+        {
+            Id = _id,
+            CommentId = commentId
+        });
+    }
+
+    public void Apply(CommentRemovedEvent @event)
+    {
+        _id = @event.Id;
+        _comments.Remove(@event.CommentId);
+    }
+
+    public void DeletePost(string username)
+    {
+        if (!_active)
+        {
+            throw new InvalidOperationException("Post was removed");
+        }
+
+        if (!_author.Equals(username, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("You are not allowd to delete other user post");
+        }
+
+        RaiseEvent(new PostRemovedEvent
+        {
+            Id = _id
+        });
+    }
+
+    public void Apply(PostRemovedEvent @event)
+    {
+        _id = @event.Id;
+        _active = false;
     }
 }
 
