@@ -1,5 +1,3 @@
-using System;
-
 namespace Post.Cmd.Infrastructure.Config;
 
 public class MongoDbConfig

@@ -1,9 +1,8 @@
 using CQRS.Core.Commnds;
 
-namespace Post.Cmd.Api.Commands
+namespace Post.Cmd.Api.Commands;
+
+public class DeletePostCommand : BaseCommand
 {
-    public class DeletePostCommand : BaseCommand
-    {
-        public string? Username { get; set; }
-    }
+    public string Username { get; set; } = "";
 }

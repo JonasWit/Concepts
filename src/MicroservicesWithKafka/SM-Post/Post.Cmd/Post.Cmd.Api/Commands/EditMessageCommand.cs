@@ -1,9 +1,8 @@
 using CQRS.Core.Commnds;
 
-namespace Post.Cmd.Api.Commands
+namespace Post.Cmd.Api.Commands;
+
+public class EditMessageCommand : BaseCommand
 {
-    public class EditPostCommand : BaseCommand
-    {
-        public string? Message { get; set; }
-    }
+    public string Message { get; set; } = "";
 }

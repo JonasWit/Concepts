@@ -1,4 +1,3 @@
-using System;
 using CQRS.Core.Events;
 
 namespace CQRS.Core.Infrastructure;

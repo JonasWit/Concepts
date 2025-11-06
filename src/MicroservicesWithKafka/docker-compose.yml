@@ -27,15 +27,15 @@ services:
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
     depends_on:
       - zookeeper
-      
+
 volumes:
   zookeeper_data:
     driver: local
   kafka_data:
     driver: local
-   
+
 networks:
-  default:    
+  default:
     name: mydockernetwork
     external: true
     

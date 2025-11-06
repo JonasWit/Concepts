@@ -24,14 +24,10 @@ public abstract class AggregateRoot
     {
         var method = GetType().GetMethod("Apply", [@event.GetType()]);
         if (method is null)
-        {
-            throw new ArgumentNullException(nameof(method), $"The Apply method was not found in aggregate for {@event.GetType().Name}");
-        }
+            throw new ArgumentNullException(nameof(method),
+                $"The Apply method was not found in aggregate for {@event.GetType().Name}");
         method.Invoke(this, [@event]);
-        if (isNew)
-        {
-            _changes.Add(@event);
-        }
+        if (isNew) _changes.Add(@event);
     }
 
     protected void RaiseEvent(BaseEvent @event)
@@ -41,9 +37,6 @@ public abstract class AggregateRoot
 
     public void ReplayEvents(IEnumerable<BaseEvent> events)
     {
-        foreach (var @event in events)
-        {
-            ApplyChange(@event, false);
-        }
+        foreach (var @event in events) ApplyChange(@event, false);
     }
 }

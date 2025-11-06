@@ -6,31 +6,20 @@ using Post.Cmd.Domain.Aggregates;
 
 namespace Post.Cmd.Infrastructure.Stores;
 
-public class EventStore : IEventStore
+public class EventStore(IEventStoreRepository eventStoreRepository) : IEventStore
 {
-    private readonly IEventStoreRepository _eventStoreRepository;
-
-    public EventStore(IEventStoreRepository eventStoreRepository)
-    {
-        _eventStoreRepository = eventStoreRepository;
-    }
     public async Task<List<BaseEvent>> GetEventsAsync(Guid aggregateId)
     {
-        var eventStream = await _eventStoreRepository.FindByAggregateId(aggregateId);
+        var eventStream = await eventStoreRepository.FindByAggregateId(aggregateId);
         if (eventStream == null || eventStream.Count == 0)
-        {
             throw new AggregateNotFoundException("Incorrect post id provided");
-        }
         return [.. eventStream.OrderBy(e => e.Version).Select(e => e.EventData!)];
     }
 
     public async Task SaveEventsAsync(Guid aggregateId, IEnumerable<BaseEvent> events, int expectedVersion)
     {
-        var eventStream = await _eventStoreRepository.FindByAggregateId(aggregateId);
-        if (expectedVersion != -1 && eventStream[^1].Version != expectedVersion)
-        {
-            throw new ConcurrencyException();
-        }
+        var eventStream = await eventStoreRepository.FindByAggregateId(aggregateId);
+        if (expectedVersion != -1 && eventStream[^1].Version != expectedVersion) throw new ConcurrencyException();
 
         var version = expectedVersion;
         foreach (var @event in events)
@@ -48,7 +37,7 @@ public class EventStore : IEventStore
                 EventData = @event
             };
 
-            await _eventStoreRepository.SaveAsync(eventModel);
+            await eventStoreRepository.SaveAsync(eventModel);
         }
     }
 }
