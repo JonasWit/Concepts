@@ -20,7 +20,7 @@ builder.Services.AddSingleton(new DatabaseContextFactory(configureDbContext));
 
 // Create DB
 var dataContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseContext>();
-//dataContext.Database.EnsureCreated();
+dataContext.Database.EnsureCreated();
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
