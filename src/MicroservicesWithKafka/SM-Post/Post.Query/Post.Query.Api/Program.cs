@@ -20,13 +20,15 @@ builder.Services.AddSingleton(new DatabaseContextFactory(configureDbContext));
 
 // Create DB
 var dataContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseContext>();
-dataContext.Database.EnsureCreated();
+//dataContext.Database.EnsureCreated();
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IEventHandler, EventHandler>();
 builder.Services.Configure<ConsumerConfig>(builder.Configuration.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
+
+builder.Services.AddHostedService<ConsumerHostedService>();
 
 builder.Services.AddOpenApi();
 var app = builder.Build();
