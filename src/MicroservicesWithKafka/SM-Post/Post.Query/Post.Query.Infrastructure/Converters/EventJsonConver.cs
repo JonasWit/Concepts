@@ -19,7 +19,7 @@ public class EventJsonConverter : JsonConverter<BaseEvent>
             throw new JsonException($"Failed to parse {nameof(JsonDocument)}");
         }
 
-        if (!document.RootElement.TryGetProperty("type", out var typeProperty))
+        if (!document.RootElement.TryGetProperty("Type", out var typeProperty))
         {
             throw new JsonException($"Could not detect Type discriminator property");    
         }

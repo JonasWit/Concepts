@@ -4,6 +4,9 @@ using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
 using CQRS.Core.Producers;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Domain.Aggregates;
 using Post.Cmd.Infrastructure.Config;
@@ -14,6 +17,13 @@ using Post.Cmd.Infrastructure.Repositories;
 using Post.Cmd.Infrastructure.Stores;
 
 var builder = WebApplication.CreateBuilder(args);
+
+BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+
+builder.Services.AddControllers(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = true;
+});
 
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
 builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
@@ -53,6 +63,9 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
+app.UseHttpsRedirection();
+app.UseRouting();
+app.MapControllers();
 app.UseHttpsRedirection();
 
 app.Run();
