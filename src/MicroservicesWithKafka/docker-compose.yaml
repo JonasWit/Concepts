@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  post-cmd-api:
+    build:
+      context: .
+      dockerfile: SM-Post/Post.Cmd/Post.Cmd.Api/Dockerfile
+    container_name: post-cmd-api
+    ports:
+      - "5010:80"
+    networks:
+      - mydockernetwork
+    volumes:
+      # Mount your production appsettings.json file
+      - ./config/post-cmd-appsettings.production.json:/app/appsettings.Production.json:ro
+    environment:
+      # Only set the environment to Production so it uses the mounted file
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - kafka
+      - mongo-container
+    restart: unless-stopped
+
+  post-query-api:
+    build:
+      context: .
+      dockerfile: SM-Post/Post.Query/Post.Query.Api/Dockerfile
+    container_name: post-query-api
+    ports:
+      - "5011:80"
+    networks:
+      - mydockernetwork
+    volumes:
+      # Mount your production appsettings.json file
+      - ./config/post-query-appsettings.production.json:/app/appsettings.Production.json:ro
+    environment:
+      # Only set the environment to Production so it uses the mounted file
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - kafka
+      - sql-container
+    restart: unless-stopped
+
+networks:
+  mydockernetwork:
+    external: true
