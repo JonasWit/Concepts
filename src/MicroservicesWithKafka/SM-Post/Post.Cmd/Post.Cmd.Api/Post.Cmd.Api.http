@@ -1,0 +1,72 @@
+@baseUrl = http://localhost:5010
+@contentType = application/json
+
+### Health Check
+GET {{baseUrl}}/health
+
+### New Post
+POST {{baseUrl}}/api/v1/newpost
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}",
+  "author": "John Doe",
+  "message": "This is a new post"
+}
+
+### Edit Message
+PUT {{baseUrl}}/api/v1/editmessage
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}",
+  "message": "Updated message content"
+}
+
+### Like Post
+PUT {{baseUrl}}/api/v1/likepost
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}"
+}
+
+### Add Comment
+POST {{baseUrl}}/api/v1/addcomment
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}",
+  "commentId": "{{$guid}}",
+  "comment": "Great post!",
+  "author": "Jane Smith",
+}
+
+### Edit Comment
+PUT {{baseUrl}}/api/v1/editcomment
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}",
+  "commentId": "{{$guid}}",
+  "comment": "Updated comment",
+  "author": "Jane Smith",
+  "dateTime": "{{$now}}"
+}
+
+### Remove Comment
+DELETE {{baseUrl}}/api/v1/removecomment
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}",
+  "commentId": "{{$guid}}"
+}
+
+### Delete Post
+DELETE {{baseUrl}}/api/v1/deletepost
+Content-Type: {{contentType}}
+
+{
+  "id": "{{$guid}}"
+}

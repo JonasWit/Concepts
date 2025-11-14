@@ -29,6 +29,7 @@ public class NewPostController : ControllerBase
             await _commandDispatcher.SendAsync(command);
             return StatusCode(StatusCodes.Status201Created, new NewPostResponse()
             {
+                Id = id,
                 Message = "Post created",
             });
         }
