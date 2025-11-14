@@ -115,7 +115,7 @@ public class PostAggregate : AggregateRoot
     {
         if (!Active) throw new InvalidOperationException("You cannot remove a comment to an inactive post");
 
-        if (_comments[commentId].Aurthor.Equals(username, StringComparison.OrdinalIgnoreCase))
+        if (!_comments[commentId].Aurthor.Equals(username, StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException("You are not allowd to remove other user comment");
 
         RaiseEvent(new CommentRemovedEvent

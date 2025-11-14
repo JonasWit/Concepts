@@ -25,6 +25,11 @@ public class AddCommentController : ControllerBase
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(command.Username))
+            {
+                throw new InvalidOperationException("Username cannot be empty");
+            }
+
             command.Id = id;
             await _commandDispatcher.SendAsync(command);
             return Ok(new BaseResponse()
