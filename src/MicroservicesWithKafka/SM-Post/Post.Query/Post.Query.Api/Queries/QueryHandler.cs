@@ -22,18 +22,18 @@ public class QueryHandler : IQueryHandler
         return [post];
     }
 
-    public Task<List<PostEntity>> HandleAsync(FindPostsByAuthor query)
+    public Task<List<PostEntity>> HandleAsync(FindPostsByAuthor query) =>
+        _postRepository.ListByAuthorAsync(query.Author);
+
+    public async Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query)
     {
-        throw new NotImplementedException();
+        var posts = await _postRepository.ListWithCommentsAsync();
+        return posts;
     }
 
-    public Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query)
+    public async Task<List<PostEntity>> HandleAsync(FindPostsWithLikesQuery query)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<PostEntity>> HandleAsync(FindPostsWithLikesQuery query)
-    {
-        throw new NotImplementedException();
+        var posts = await _postRepository.ListWithLikesAsync(query.NumberOfLikes);
+        return posts;
     }
 }
