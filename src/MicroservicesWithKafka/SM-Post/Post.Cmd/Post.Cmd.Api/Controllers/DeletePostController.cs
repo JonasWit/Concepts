@@ -30,7 +30,7 @@ public class DeletePostController : ControllerBase
             await _commandDispatcher.SendAsync(command);
             return Ok(new BaseResponse()
             {
-                Message = "Comment removed successfully"
+                Message = "Post deleted successfully"
             });
         }
         catch (InvalidOperationException ex)
@@ -51,7 +51,7 @@ public class DeletePostController : ControllerBase
         }
         catch (Exception ex)
         {
-            const string safeErrorMessage = "Error while removing comment";
+            const string safeErrorMessage = "Error while deleting post";
             _logger.Log(LogLevel.Error, ex, safeErrorMessage);
             return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse()
             {
