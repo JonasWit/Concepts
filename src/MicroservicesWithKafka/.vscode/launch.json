@@ -16,10 +16,12 @@
       "stopAtEntry": false,
       // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
       "serverReadyAction": {
-        "action": "openExternally",
+        "name": "PostCmd",
+        "action": "startDebugging",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       },
       "env": {
+        "KAFKA_TOPIC": "SocialMediaPostEvents",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:5010"
       },
@@ -42,10 +44,12 @@
       "stopAtEntry": false,
       // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
       "serverReadyAction": {
-        "action": "openExternally",
+        "name": "PostQuery",
+        "action": "startDebugging",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       },
       "env": {
+        "KAFKA_TOPIC": "SocialMediaPostEvents",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:5011"
       },

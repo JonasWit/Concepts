@@ -17,7 +17,7 @@ public class EventConsumer : IEventConsumer
 
     public EventConsumer(
         ILogger<EventConsumer> logger,
-        IOptions<ConsumerConfig> config, 
+        IOptions<ConsumerConfig> config,
         IEventHandler eventHandler)
     {
         _logger = logger;
@@ -41,7 +41,8 @@ public class EventConsumer : IEventConsumer
             {
                 var consumerResult = consumer.Consume();
                 if (consumerResult?.Message == null) continue;
-                var @event = JsonSerializer.Deserialize<BaseEvent>(consumerResult.Message.Value, options);
+                var @event = JsonSerializer.Deserialize<BaseEvent>(consumerResult.Message.Value, options) ??
+                    throw new Exception("Could not deserialize base event");
                 var handlerMethod = _eventHandler.GetType().GetMethod("On", [@event.GetType()]);
                 if (handlerMethod == null)
                 {

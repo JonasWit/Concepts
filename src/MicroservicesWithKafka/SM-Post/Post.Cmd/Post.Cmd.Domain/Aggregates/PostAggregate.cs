@@ -93,7 +93,7 @@ public class PostAggregate : AggregateRoot
     {
         if (!Active) throw new InvalidOperationException("You cannot edit a comment to an inactive post");
 
-        if (_comments[commentId].Aurthor.Equals(username, StringComparison.OrdinalIgnoreCase))
+        if (!_comments[commentId].Aurthor.Equals(username, StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException("You are not allowd to edit other user comment");
 
         RaiseEvent(new CommentUpdatedEvent
