@@ -10,12 +10,13 @@ services:
       - "5010:80"
     networks:
       - mydockernetwork
-    volumes:
-      # Mount your production appsettings.json file
-      - ./config/post-cmd-appsettings.production.json:/app/appsettings.Production.json:ro
     environment:
-      # Only set the environment to Production so it uses the mounted file
       - ASPNETCORE_ENVIRONMENT=Production
+      # Replace these host env vars with your secret values (or use prod.env)
+      - MongoDbConfig__ConnectionString=${MONGODB_CONNECTION}
+      - MongoDbConfig__Database=${MONGODB_DATABASE}
+      - MongoDbConfig__Collection=${MONGODB_COLLECTION}
+      - ProducerConfig__BootstrapServers=${KAFKA_BOOTSTRAP_SERVERS}
     depends_on:
       - kafka
       - mongo-container
@@ -30,12 +31,15 @@ services:
       - "5011:80"
     networks:
       - mydockernetwork
-    volumes:
-      # Mount your production appsettings.json file
-      - ./config/post-query-appsettings.production.json:/app/appsettings.Production.json:ro
     environment:
-      # Only set the environment to Production so it uses the mounted file
       - ASPNETCORE_ENVIRONMENT=Production
+      # Replace these host env vars with your secret values (or use prod.env)
+      - ConnectionStrings__SqlServer=${SQLSERVER_CONNECTION}
+      - ConsumerConfig__GroupId=${CONSUMER_GROUP_ID}
+      - ConsumerConfig__BootstrapServers=${KAFKA_BOOTSTRAP_SERVERS}
+      - ConsumerConfig__EnableAutoCommit=${CONSUMER_ENABLE_AUTO_COMMIT}
+      - ConsumerConfig__AutoOffsetReset=${CONSUMER_AUTO_OFFSET_RESET}
+      - ConsumerConfig__AllowAutoCreateTopics=${CONSUMER_ALLOW_AUTO_CREATE_TOPICS}
     depends_on:
       - kafka
       - sql-container
