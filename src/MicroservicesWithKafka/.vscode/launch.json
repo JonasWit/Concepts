@@ -50,7 +50,7 @@
       },
       "env": {
         "KAFKA_TOPIC": "SocialMediaPostEvents",
-        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_ENVIRONMENT": "Development.Psql",
         "ASPNETCORE_URLS": "http://localhost:5011"
       },
       "sourceFileMap": {

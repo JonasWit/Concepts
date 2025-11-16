@@ -21,9 +21,19 @@ builder.Services.AddControllers(options =>
     options.SuppressAsyncSuffixInActionNames = true;
 });
 
-Action<DbContextOptionsBuilder> configureDbContext = o =>
-    o.UseLazyLoadingProxies()
+Action<DbContextOptionsBuilder> configureDbContext;
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+if (env.Equals("Development.Psql"))
+{
+    configureDbContext = o => o.UseLazyLoadingProxies()
+    .UseNpgsql(builder.Configuration.GetConnectionString("SqlServer"));
+
+}
+else
+{
+    configureDbContext = o => o.UseLazyLoadingProxies()
         .UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+}
 
 builder.Services.AddDbContext<DatabaseContext>(configureDbContext);
 builder.Services.AddSingleton(new DatabaseContextFactory(configureDbContext));
