@@ -1,6 +1,20 @@
-@Post.Query.Api_HostAddress = http://localhost:5188
+@baseUrl = http://localhost:5011
+@contentType = application/json
 
-GET {{Post.Query.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Health Check
+GET {{baseUrl}}/health
 
-###
+### Get all posts (with pagination)
+GET {{baseUrl}}/api/v1/postlookup?pageNumber=1&pageSize=10
+
+### Get post by Id
+GET {{baseUrl}}/api/v1/postlookup/byId/27a16ad8-9ed6-48bf-a4db-22ad9b03650e
+
+### Get posts by author
+GET {{baseUrl}}/api/v1/postlookup/byAuthor/John%20Doe
+
+### Get posts with comments
+GET {{baseUrl}}/api/v1/postlookup/withComments
+
+### Get posts with at least N likes
+GET {{baseUrl}}/api/v1/postlookup/withlikes/1

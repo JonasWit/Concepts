@@ -19,13 +19,14 @@ public class EditMessageController : ControllerBase
         _logger = logger;
         _commandDispatcher = commandDispatcher;
     }
-    
+
     [HttpPut("{id}")]
     public async Task<ActionResult> EditMessageAsync(Guid id, EditMessageCommand command)
     {
         try
         {
             command.Id = id;
+            _logger.LogInformation("Message: {Msg}", command.Message);
             await _commandDispatcher.SendAsync(command);
             return Ok(new BaseResponse()
             {

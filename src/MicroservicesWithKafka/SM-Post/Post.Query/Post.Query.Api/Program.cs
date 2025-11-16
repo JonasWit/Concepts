@@ -1,10 +1,14 @@
 using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using CQRS.Core.Consumers;
+using CQRS.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Post.Query.Api.Queries;
+using Post.Query.Domain.Entities;
 using Post.Query.Domain.Repositories;
 using Post.Query.Infrastructure.Consumers;
 using Post.Query.Infrastructure.DataAccess;
+using Post.Query.Infrastructure.Dispatchers;
 using Post.Query.Infrastructure.Handlers;
 using Post.Query.Infrastructure.Repositories;
 using Scalar.AspNetCore;
@@ -33,6 +37,17 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IEventHandler, EventHandler>();
 builder.Services.Configure<ConsumerConfig>(builder.Configuration.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
+builder.Services.AddScoped<IQueryHandler, QueryHandler>();
+
+var queryHandler = builder.Services.BuildServiceProvider().GetRequiredService<IQueryHandler>();
+var dispatecher = new QueryDispatcher();
+dispatecher.RegisterHandler<FindAllPostsQuery>(queryHandler.HandleAsync);
+dispatecher.RegisterHandler<FindPostByIdQuery>(queryHandler.HandleAsync);
+dispatecher.RegisterHandler<FindPostsByAuthor>(queryHandler.HandleAsync);
+dispatecher.RegisterHandler<FindPostsWithCommentsQuery>(queryHandler.HandleAsync);
+dispatecher.RegisterHandler<FindPostsWithLikesQuery>(queryHandler.HandleAsync);
+
+builder.Services.AddSingleton<IQueryDispatcher<PostEntity>>(_ => dispatecher);
 
 await EnsureTopicExists(builder.Configuration);
 builder.Services.AddHostedService<ConsumerHostedService>();
@@ -46,6 +61,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 app.Run();
 return;
 
@@ -53,32 +69,32 @@ static async Task EnsureTopicExists(IConfiguration configuration)
 {
     var consumerConfig = new ConsumerConfig();
     configuration.GetSection(nameof(ConsumerConfig)).Bind(consumerConfig);
-    
+
     var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC") ?? "SocialMediaPostEvents";
-    
+
     var adminConfig = new AdminClientConfig
     {
         BootstrapServers = consumerConfig.BootstrapServers
     };
 
     using var adminClient = new AdminClientBuilder(adminConfig).Build();
-    
+
     try
     {
         var metadata = adminClient.GetMetadata(TimeSpan.FromSeconds(10));
         var topicExists = metadata.Topics.Any(t => t.Topic == topic && t.Error.Code == ErrorCode.NoError);
-        
+
         if (!topicExists)
         {
             Console.WriteLine($"Creating Kafka topic: {topic}");
-            
+
             var topicSpec = new TopicSpecification
             {
                 Name = topic,
                 NumPartitions = 3,
                 ReplicationFactor = 1
             };
-            
+
             await adminClient.CreateTopicsAsync([topicSpec]);
             Console.WriteLine($"Successfully created Kafka topic: {topic}");
         }

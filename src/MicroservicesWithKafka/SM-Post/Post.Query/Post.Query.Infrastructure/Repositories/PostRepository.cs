@@ -18,14 +18,14 @@ public class PostRepository(DatabaseContextFactory databaseContextFactory) : IPo
     {
         await using var databaseContext = databaseContextFactory.CreateDbContext();
         databaseContext.Posts.Update(post);
-        await databaseContext.SaveChangesAsync();      
+        await databaseContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid postId)
     {
         await using var databaseContext = databaseContextFactory.CreateDbContext();
         var post = await GetByIdAsync(postId);
-        if (post == null) 
+        if (post == null)
         {
             return;
         }
@@ -38,15 +38,22 @@ public class PostRepository(DatabaseContextFactory databaseContextFactory) : IPo
     {
         await using var databaseContext = databaseContextFactory.CreateDbContext();
         return await databaseContext.Posts.Include(p => p.Comments)
-            .FirstOrDefaultAsync(p => p.PostId == postId);   
+            .FirstOrDefaultAsync(p => p.PostId == postId);
     }
 
-    public async Task<List<PostEntity>> ListAllAsync()
+    public async Task<List<PostEntity>> ListAllAsync(int pageNumber = 0, int pageSize = 0)
     {
         await using var databaseContext = databaseContextFactory.CreateDbContext();
-        return await databaseContext.Posts.AsNoTracking()
-            .Include(p => p.Comments)
-            .ToListAsync();       
+        var query = databaseContext.Posts.AsNoTracking();
+
+        if (pageNumber > 0 && pageSize > 0)
+        {
+            var skip = (pageNumber - 1) * pageSize;
+            query = query.Skip(skip).Take(pageSize);
+        }
+
+        query = query.Include(p => p.Comments);
+        return await query.ToListAsync();
     }
 
     public async Task<List<PostEntity>> ListByAuthorAsync(string author)

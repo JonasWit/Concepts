@@ -15,16 +15,15 @@ Content-Type: {{contentType}}
 }
 
 ### Edit Message
-PUT {{baseUrl}}/api/v1/editmessage
+PUT {{baseUrl}}/api/v1/editmessage/16fe9dda-2296-4dba-b995-40ae4fec611d
 Content-Type: {{contentType}}
 
 {
-  "id": "{{$guid}}",
-  "message": "Updated message content"
+  "message": "Updated message content234"
 }
 
 ### Like Post
-PUT {{baseUrl}}/api/v1/likepost
+PUT {{baseUrl}}/api/v1/likepost/c68a9dcf-82ab-4fac-b6a0-0a8b7ffd04b6
 Content-Type: {{contentType}}
 
 {
