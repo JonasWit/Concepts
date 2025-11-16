@@ -11,6 +11,17 @@ public class EventStore(
     IEventStoreRepository eventStoreRepository,
     IEventProducer eventProducer) : IEventStore
 {
+    public async Task<List<Guid>> GetAggregateIdsAsync()
+    {
+        var eventStream = await eventStoreRepository.FindAllAsync();
+        if (eventStream is null || eventStream.Count == 0)
+        {
+            throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from event store");
+        }
+
+        return [.. eventStream.Select(a => a.AggregateIdentifier).Distinct()];
+    }
+
     public async Task<List<BaseEvent>> GetEventsAsync(Guid aggregateId)
     {
         var eventStream = await eventStoreRepository.FindByAggregateId(aggregateId);
@@ -45,7 +56,7 @@ public class EventStore(
             var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC") ?? "post-events";
             await eventProducer.ProduceAsync(topic, @event);
         }
-        
+
         // using var session = await mongoClient.StartSessionAsync();
         //
         // try

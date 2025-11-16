@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Post.Query.Domain.Entities;
 
-[Table("Post")]
+[Table("Post", Schema = "dbo")]
 public class PostEntity
 {
     [Key]
@@ -17,7 +17,7 @@ public class PostEntity
     public virtual ICollection<CommentEntity> Comments { get; set; } = [];
 }
 
-[Table("Comment")]
+[Table("Comment", Schema = "dbo")]
 public class CommentEntity
 {
     [Key]

@@ -18,6 +18,11 @@ public class EventStoreRepository : IEventStoreRepository
         _eventStoreCollection = mongoDatabase.GetCollection<EventModel>(config.Value.Collection);
     }
 
+    public Task<List<EventModel>> FindAllAsync()
+    {
+        return _eventStoreCollection.Find(_ => true).ToListAsync();
+    }
+
     public Task<List<EventModel>> FindByAggregateId(Guid aggregateId)
     {
         return _eventStoreCollection.Find(e => e.AggregateIdentifier == aggregateId).ToListAsync();

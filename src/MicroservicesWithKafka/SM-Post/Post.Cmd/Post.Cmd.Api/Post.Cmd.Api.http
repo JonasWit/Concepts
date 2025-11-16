@@ -69,3 +69,11 @@ Content-Type: {{contentType}}
 {
   "id": "{{$guid}}"
 }
+
+### Recreate read db
+POST {{baseUrl}}/api/v1/restoreReadDb
+Content-Type: {{contentType}}
+
+{
+
+}
