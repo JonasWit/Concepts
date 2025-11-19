@@ -20,7 +20,7 @@ DECLARE @IntegerValue INT = 7               --Whole Number - 32 Bit MAX 2,147,48
         , @CreateDate DATETIME;
 
 
-SELECT @IntegerValue
+SELECT @IntegerValue, @LargeIntegerValue
 		
 SET @IntegerValue = 10;
 SELECT @IntegerValue
