@@ -18,6 +18,8 @@ SELECT * FROM Inventory.Furniture
 GO
 
 
+CREATE TYPE dbo.String FROM VARCHAR(255)
 
+DECLARE @MyString dbo.String = 'Up to 255 unicode characaters'
 
-
+SELECT * FROM sys.types
