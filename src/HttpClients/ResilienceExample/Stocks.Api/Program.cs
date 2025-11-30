@@ -63,8 +63,7 @@ app.MapGet("/api/stocks/{ticker}", async (string ticker, StockService stockServi
         ? Results.NotFound($"No stock data available for ticker: {ticker}")
         : Results.Ok(result);
 })
-.WithName("GetLatestStockPrice")
-.WithOpenApi();
+.WithName("GetLatestStockPrice");
 
 app.UseHttpsRedirection();
 
