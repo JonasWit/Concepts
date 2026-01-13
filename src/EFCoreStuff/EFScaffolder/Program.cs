@@ -18,14 +18,48 @@ class Program
 
     using var context = new AppDbContext(connectionString);
 
+    Console.WriteLine("\n=== QUERY SQL (using ToQueryString) ===");
     var sql = context.Products
         .Where(p => p.Price > 10)
         .OrderBy(p => p.Name)
         .Take(5)
         .ToQueryString();
-
-    Console.WriteLine("Generated SQL:");
     Console.WriteLine(sql);
+
+    Console.WriteLine("\n=== SAVECHANGES SQL (logged but rolled back) ===");
+
+    using var transaction = context.Database.BeginTransaction();
+    try
+    {
+
+
+    }
+    finally
+    {
+      transaction.Rollback();
+    }
+
+
+    // Wrap in transaction and rollback to see SQL without committing
+    using var transaction = context.Database.BeginTransaction();
+
+    // INSERT
+    var newProduct = new Product { Name = "New Product", Price = 25.99m };
+    context.Products.Add(newProduct);
+    context.SaveChanges(); // SQL will be printed
+
+    // UPDATE
+    var product = context.Products.First();
+    product.Price = 99.99m;
+    context.SaveChanges(); // SQL will be printed
+
+    // DELETE
+    var productToDelete = context.Products.Skip(1).First();
+    context.Products.Remove(productToDelete);
+    context.SaveChanges(); // SQL will be printed
+
+    transaction.Rollback(); // Nothing is committed to database
+    Console.WriteLine("\n--- Transaction rolled back, no changes committed ---");
   }
 }
 
