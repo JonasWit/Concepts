@@ -123,6 +123,11 @@ BEGIN
         LEFT JOIN Person.Person
           ON MostRecentPayRate.BusinessEntityID = Person.BusinessEntityID
         WHERE IsMostRecent = 1
+
+  
+
+
+
 END
 
 EXEC HumanResources.spEmpPayRate_Get
